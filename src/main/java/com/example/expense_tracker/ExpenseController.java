@@ -18,6 +18,12 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
+    // New mapping for home page
+    @GetMapping("/")
+    public String showHomePage() {
+        return "index";  // This will display the index.html
+    }
+    
     // List expenses with pagination
     @GetMapping("/expenses")
     public String listExpenses(Model model, @RequestParam(defaultValue = "0") int page) {
