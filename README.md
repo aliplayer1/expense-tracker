@@ -1,6 +1,6 @@
 # Expense Tracker
 
-### A simple Spring Boot application for managing personal expenses.
+## A simple Spring Boot application for managing personal expenses.
 
 ## Features
 
