@@ -1,22 +1,45 @@
 # Expense Tracker
 
-## A simple Spring Boot application for managing personal expenses.
+## A simple Spring Boot application for managing personal expenses
 
 ## Features
 
-- **Add Expenses**: Create a new expense by specifying a description, amount, and date.
-- **View All Expenses**: Retrieve a list of all expenses stored in the application.
-- **View Expense by ID**: Retrieve details of a specific expense using its ID.
+- **Add Expenses**: Create a new expense by specifying a description, amount, category, and date.
+- **Edit Expenses**: Edit existing expenses, allowing users to update the description, amount, category, and date.
+- **View All Expenses with Pagination**: View all stored expenses in a paginated format, making it easy to navigate through large numbers of expenses.
+- **Search Expenses**: Search for specific expenses by description, making it easier to filter and find relevant expenses.
+- **View Statistics**: Display statistics such as total expenses, category-wise expenses, and monthly breakdowns.
 - **Delete Expenses**: Remove an expense by ID.
+
+## Screenshots
+
+### 1. Expense List Page
+
+This page shows all your expenses in a paginated view. You can edit or delete expenses from here, or add new ones.
+
+![Expense List Screenshot](docs/screenshots/expense-list.png)
+
+### 2. Add/Edit Expense Page
+
+You can add a new expense or edit an existing one through this form. The form allows you to specify the description, amount, category, and date of the expense.
+
+![Expense Form Screenshot](docs/screenshots/expense-form.png)
+
+### 3. Expense Statistics Page
+
+This page displays helpful statistics, such as total expenses, monthly breakdown, and category-wise breakdown.
+
+![Expense Statistics Screenshot](docs/screenshots/expense-stats.png)
 
 ## Technologies Used
 
 - **Java 11+**
-- **Spring Boot**: For building the RESTful API.
+- **Spring Boot**: For building the application and REST API.
 - **Spring Data JPA**: To handle database operations.
 - **H2 Database**: In-memory database for simplicity and testing.
+- **Thymeleaf**: Server-side templating engine used for rendering views.
+- **Bootstrap 4.5**: For modern and responsive user interface styling.
 - **Maven**: For dependency management and building the project.
-- **Lombok** (optional): To reduce boilerplate code for model classes.
 
 ## Getting Started
 
@@ -50,17 +73,27 @@
 
     Alternatively, if you are using an IDE like IntelliJ or Eclipse, you can run the `ExpenseTrackerApplication.java` file directly.
 
-4. **Access the API**:
+4. **Access the application**:
 
-    The API will be available at `http://localhost:8080`.
+    - Navigate to `http://localhost:8080` in your browser.
 
-    You can use Postman or a similar tool to interact with the API.
+    - From here, you can interact with the expense tracker application via the user interface.
+
+## User Interface Features
+
+- **Bootstrap UI**: The application uses Bootstrap 4.5 for a modern, responsive design, ensuring a consistent and user-friendly interface across devices.
+- **Pagination**: Expenses are displayed in a paginated format, allowing users to navigate through multiple pages of records efficiently.
+- **Search Functionality**: Users can search for expenses by description, providing a quick way to filter relevant expenses.
+- **Expense Statistics**: Users can view detailed statistics including:
+  - **Total Expenses**: The total amount spent.
+  - **Monthly Breakdown**: Expenses grouped by month.
+  - **Category Breakdown**: Expenses grouped by category.
 
 ## API Endpoints
 
 ### 1. Add a New Expense
 
-- **URL**: `/api/expenses`
+- **URL**: `/expenses`
 - **Method**: `POST`
 - **Request Body**:
 
@@ -68,28 +101,42 @@
     {
         "description": "Groceries",
         "amount": 50.0,
+        "category": "Food",
         "date": "2024-09-20"
     }
     ```
 
 - **Response**: Returns the created expense object.
 
-### 2. Get All Expenses
+### 2. Get All Expenses (Paginated)
 
-- **URL**: `/api/expenses`
+- **URL**: `/expenses`
 - **Method**: `GET`
-- **Response**: Returns a list of all expenses.
+- **Response**: Returns a paginated list of all expenses.
 
-### 3. Get Expense by ID
+### 3. Search for Expenses
 
-- **URL**: `/api/expenses/{id}`
+- **URL**: `/expenses/search`
+- **Method**: `GET`
+- **Query Parameter**: `query` (used to search by description)
+- **Response**: Returns a list of matching expenses.
+
+### 4. View Expense Statistics
+
+- **URL**: `/expenses/stats`
+- **Method**: `GET`
+- **Response**: Returns statistics including total expenses, monthly breakdown, and category-wise expenses.
+
+### 5. Get Expense by ID
+
+- **URL**: `/expenses/{id}`
 - **Method**: `GET`
 - **Response**: Returns the expense with the specified ID or a `404 Not Found` if the expense doesn't exist.
 
-### 4. Delete an Expense
+### 6. Delete an Expense
 
-- **URL**: `/api/expenses/{id}`
-- **Method**: `DELETE`
+- **URL**: `/expenses/delete/{id}`
+- **Method**: `GET`
 - **Response**: Deletes the expense with the specified ID. Returns `204 No Content` on success, or `404 Not Found` if the expense doesn't exist.
 
 ## H2 Database Console
@@ -114,10 +161,19 @@ expense-tracker/
 │   │   │       ├── Expense.java              # Expense entity class
 │   │   │       ├── ExpenseRepository.java    # Repository interface for CRUD operations
 │   │   │       ├── ExpenseService.java       # Service layer for business logic
-│   │   │       ├── ExpenseController.java    # Controller for REST API
+│   │   │       ├── ExpenseController.java    # Controller for REST API and Thymeleaf templates
 │   │   │       └── ExpenseTrackerApplication.java  # Main class to start the Spring Boot application
 │   │   └── resources/
+│   │       ├── templates/                    # Thymeleaf templates for UI rendering
+│   │       │   ├── expense-list.html         # List of all expenses
+│   │       │   ├── expense-form.html         # Form for creating/editing expenses
+│   │       │   ├── expense-stats.html        # Expense statistics display
 │   │       └── application.properties        # Database configuration (H2)
+├── docs/                                     # Documentation folder for images/screenshots
+│   └── screenshots/                          # Folder for screenshots
+│       ├── expense-list.png                  # Screenshot of the expense list page
+│       ├── expense-form.png                  # Screenshot of the expense form page
+│       └── expense-stats.png                 # Screenshot of the statistics page
 ├── pom.xml                                    # Maven dependencies and build configuration
 └── README.md                                  # Project documentation
 ```
